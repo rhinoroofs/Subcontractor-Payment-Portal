@@ -188,7 +188,7 @@ const CONFIG = {
   repo:      "Subcontractor-Payment-Portal", // ← Your repository name
   token:     "ghp_XXXXXXXXXX",         // ← Your GitHub Personal Access Token
   adminpw:   "RhinoAdmin2026",         // ← Password for the admin panel
-  sheetsUrl: "https://script.google.com/macros/s/AKfycbyjNOmP9DIlkZet4gBVeS3KTW7xn1SQbCl9r_PvdZ1rqWfuVDBZLrJ3TKUxTO4urGjt6Q/exec", // ← Google Apps Script Web App URL
+  sheetsUrl: "https://script.google.com/macros/s/AKfycbxWpqDrJcydnpLA2qn1VhFLG1710gNJij4JIIPqgB0mMkkwE1mrB9JmYrFB-45M2JnZQw/exec", // ← Google Apps Script Web App URL
   sheetLink: "https://docs.google.com/spreadsheets/d/1ls8QMBgnRmlRg1-2gTrr4mY_jYYt-k2jWeSR3Swv2q8/edit?usp=sharing", // ← Direct URL to your Google Sheet
 };
 </script>
@@ -743,7 +743,8 @@ async function submitPayroll() {
       }
     }
   }
-// ── Campos obligatorios por contratista ──────────────────────
+
+  // ── Campos obligatorios por contratista ──────────────────────
   const REQUIRE_NOTES = ['Rhino Crew / Vicente & Raul'];
   const REQUIRE_FIELDS = [
     'LF Gutters / Favian Zamudio',
@@ -769,26 +770,27 @@ async function submitPayroll() {
       if (el) { el.style.borderColor='var(--red)'; el.focus(); el.style.boxShadow='0 0 0 3px rgba(234,67,54,0.25)'; }
     };
     for (let i = 1; i <= entryCount; i++) {
-      if (!document.getElementById(eb-${i})) continue;
-      const addr  = document.getElementById(e${i}-addr)?.value?.trim();
-      const pm    = document.getElementById(e${i}-pm)?.value;
-      const sq    = gn(e${i}-sq);
-      const roof  = document.getElementById(e${i}-roof)?.value;
-      const work  = document.getElementById(e${i}-work)?.value;
-      const rate  = gn(e${i}-rate);
-      const notes = document.getElementById(e${i}-notes)?.value?.trim();
+      if (!document.getElementById(`eb-${i}`)) continue;
+      const addr = document.getElementById(`e${i}-addr`)?.value?.trim();
+      const pm   = document.getElementById(`e${i}-pm`)?.value;
+      const sq   = gn(`e${i}-sq`);
+      const roof = document.getElementById(`e${i}-roof`)?.value;
+      const work = document.getElementById(`e${i}-work`)?.value;
+      const rate = gn(`e${i}-rate`);
+      const notes = document.getElementById(`e${i}-notes`)?.value?.trim();
 
-      if (!addr) { hl(e${i}-addr); alert(⚠️ Trabajo #${i}: Address es obligatorio.); return; }
-      if (!pm)   { hl(e${i}-pm);   alert(⚠️ Trabajo #${i}: PM es obligatorio.); return; }
-      if (!sq)   { hl(e${i}-sq);   alert(⚠️ Trabajo #${i}: Squares (SQ) es obligatorio.); return; }
-      if (!roof) { hl(e${i}-roof); alert(⚠️ Trabajo #${i}: Roof Type es obligatorio.); return; }
-      if (!work) { hl(e${i}-work); alert(⚠️ Trabajo #${i}: Type of Work es obligatorio.); return; }
-      if (!rate) { hl(e${i}-rate); alert(⚠️ Trabajo #${i}: Rate $/SQ es obligatorio.); return; }
+      if (!addr) { hl(`e${i}-addr`); alert(`⚠️ Trabajo #${i}: Address es obligatorio.`); return; }
+      if (!pm)   { hl(`e${i}-pm`);   alert(`⚠️ Trabajo #${i}: PM es obligatorio.`); return; }
+      if (!sq)   { hl(`e${i}-sq`);   alert(`⚠️ Trabajo #${i}: Squares (SQ) es obligatorio.`); return; }
+      if (!roof) { hl(`e${i}-roof`); alert(`⚠️ Trabajo #${i}: Roof Type es obligatorio.`); return; }
+      if (!work) { hl(`e${i}-work`); alert(`⚠️ Trabajo #${i}: Type of Work es obligatorio.`); return; }
+      if (!rate) { hl(`e${i}-rate`); alert(`⚠️ Trabajo #${i}: Rate $/SQ es obligatorio.`); return; }
       if (REQUIRE_NOTES.includes(activeName) && !notes) {
-        hl(e${i}-notes); alert(⚠️ Trabajo #${i}: Notes es obligatorio para ${activeName}.); return;
+        hl(`e${i}-notes`); alert(`⚠️ Trabajo #${i}: Notes es obligatorio para ${activeName}.`); return;
       }
     }
   }
+
   const btn = document.getElementById('btn-submit');
   const st  = document.getElementById('form-status');
 
