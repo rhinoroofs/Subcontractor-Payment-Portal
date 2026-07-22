@@ -377,7 +377,7 @@ const CONFIG = {
         <div class="status-msg" id="subs-status"></div>
 
         <div style="margin-top:18px;display:flex;gap:10px;flex-wrap:wrap;">
-          <button class="btn btn-green btn-block" onclick="saveContractors()" style="flex:2;">💾 Guardar cambios en GitHub</button>
+          <button class="btn btn-green btn-block" onclick="saveContractors()" style="flex:2;">💾 Guardar cambios en Google Sheets</button>
           <button class="btn btn-ghost" onclick="resetSubsEdit()" style="flex:1;">↩ Descartar</button>
         </div>
       </div>
@@ -698,7 +698,20 @@ async function writeContractors(data, sha) {
     && !CONFIG.token.includes('XXXXXXXXXX')
     && CONFIG.owner !== 'TU_USUARIO_GITHUB';
 
-  if (isConfigured) {
+const sheetsOn = CONFIG.sheetsUrl && !CONFIG.sheetsUrl.includes('APPS_SCRIPT_URL');
+
+  if (sheetsOn) {
+    try {
+      const r = await fetch(CONFIG.sheetsUrl + '?action=contractors');
+      if (r.ok) {
+        const d = await r.json();
+        if (d.contractors && d.contractors.length) {
+          CONTRACTORS   = d.contractors;
+          SPECIAL_CREWS = d.specialCrews || [];
+        }
+      }
+    } catch(e) { /* use defaults */ }
+  } else if (isConfigured) {
     const result = await readContractors();
     if (result) {
       CONTRACTORS    = result.data.contractors  || DEFAULT_CONTRACTORS;
@@ -967,8 +980,24 @@ function toggleSpecial(i, checked) {
   renderSubsList();
 }
 
-async function saveContractors() {
-  const st = document.getElementById('subs-status');
+async function async function saveContractors() {
+  const st       = document.getElementById('subs-status');
+  const sheetsOn = CONFIG.sheetsUrl && !CONFIG.sheetsUrl.includes('APPS_SCRIPT_URL');
+
+  if (sheetsOn) {
+    setStatus(st, 'wait', '⏳ Guardando en Google Sheets...');
+    fetch(CONFIG.sheetsUrl, {
+      method: 'POST',
+      mode:   'no-cors',
+      body:   JSON.stringify({ action: 'saveContractors', contractors: editContractors, specialCrews: editSpecialCrews }),
+    }).catch(() => {});
+    CONTRACTORS   = [...editContractors];
+    SPECIAL_CREWS = [...editSpecialCrews];
+    buildGrid();
+    setStatus(st, 'ok', ✅ ${editContractors.length} subcontratistas guardados en Google Sheets.);
+    return;
+  }
+
   setStatus(st, 'wait', '⏳ Guardando en GitHub...');
   try {
     const data   = { contractors: editContractors, specialCrews: editSpecialCrews };
@@ -977,10 +1006,11 @@ async function saveContractors() {
     CONTRACTORS   = [...editContractors];
     SPECIAL_CREWS = [...editSpecialCrews];
     buildGrid();
-    setStatus(st, 'ok', `✅ ${editContractors.length} subcontratistas guardados. El grid fue actualizado.`);
+    setStatus(st, 'ok', ✅ ${editContractors.length} subcontratistas guardados.);
   } catch(err) {
-    setStatus(st, 'err', `❌ ${err.message}`);
+    setStatus(st, 'err', ❌ ${err.message});
   }
+}
 }
 
 // ── Google Sheets link ───────────────────────────────────────
