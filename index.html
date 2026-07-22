@@ -743,7 +743,52 @@ async function submitPayroll() {
       }
     }
   }
+// ── Campos obligatorios por contratista ──────────────────────
+  const REQUIRE_NOTES = ['Rhino Crew / Vicente & Raul'];
+  const REQUIRE_FIELDS = [
+    'LF Gutters / Favian Zamudio',
+    'Miranda Brothers Construction / Byron Miranda',
+    'DBA Lion King / Victor Ruiz',
+    'Ortega Brothers / Kevin Ortega',
+    'Treasure Coast Superior Services / Luis Hernandez',
+    'Lion King / Eddie Mendes',
+    'Pacheco Roofing & Services / Carlos Pacheco',
+    'Elite Insurance Group / Fernando Mateos',
+    "D'Raudez Roofing LLC / Oscar Torrez",
+    'GTO General Construction LLC / Chino',
+    'A1A Restoration Services LLC / Luis Arguetta',
+    'Pura Vida Pool Services LLC / Luis',
+    'Inversiones RAL / Napo',
+    'Tequilero A.B. LLC / Luis Anaya',
+    'Rhino Crew / Vicente & Raul',
+  ];
 
+  if (REQUIRE_FIELDS.includes(activeName)) {
+    const hl = (id) => {
+      const el = document.getElementById(id);
+      if (el) { el.style.borderColor='var(--red)'; el.focus(); el.style.boxShadow='0 0 0 3px rgba(234,67,54,0.25)'; }
+    };
+    for (let i = 1; i <= entryCount; i++) {
+      if (!document.getElementById(eb-${i})) continue;
+      const addr  = document.getElementById(e${i}-addr)?.value?.trim();
+      const pm    = document.getElementById(e${i}-pm)?.value;
+      const sq    = gn(e${i}-sq);
+      const roof  = document.getElementById(e${i}-roof)?.value;
+      const work  = document.getElementById(e${i}-work)?.value;
+      const rate  = gn(e${i}-rate);
+      const notes = document.getElementById(e${i}-notes)?.value?.trim();
+
+      if (!addr) { hl(e${i}-addr); alert(⚠️ Trabajo #${i}: Address es obligatorio.); return; }
+      if (!pm)   { hl(e${i}-pm);   alert(⚠️ Trabajo #${i}: PM es obligatorio.); return; }
+      if (!sq)   { hl(e${i}-sq);   alert(⚠️ Trabajo #${i}: Squares (SQ) es obligatorio.); return; }
+      if (!roof) { hl(e${i}-roof); alert(⚠️ Trabajo #${i}: Roof Type es obligatorio.); return; }
+      if (!work) { hl(e${i}-work); alert(⚠️ Trabajo #${i}: Type of Work es obligatorio.); return; }
+      if (!rate) { hl(e${i}-rate); alert(⚠️ Trabajo #${i}: Rate $/SQ es obligatorio.); return; }
+      if (REQUIRE_NOTES.includes(activeName) && !notes) {
+        hl(e${i}-notes); alert(⚠️ Trabajo #${i}: Notes es obligatorio para ${activeName}.); return;
+      }
+    }
+  }
   const btn = document.getElementById('btn-submit');
   const st  = document.getElementById('form-status');
 
