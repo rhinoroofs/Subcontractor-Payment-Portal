@@ -821,11 +821,12 @@ async function submitPayroll() {
     }
 
     if (sheetsOn) {
-      fetch(CONFIG.sheetsUrl, {
-        method: 'POST',
-        mode:   'no-cors',
-        body:   JSON.stringify({ contractor: activeName, weekDate: week, submittedAt: now, entries }),
-      }).catch(() => {});
+      try {
+        await fetch(CONFIG.sheetsUrl, {
+          method: 'POST',
+          body:   JSON.stringify({ contractor: activeName, weekDate: week, submittedAt: now, entries }),
+        });
+      } catch(e) { console.warn('Sheets POST error:', e); }
     }
 
     document.getElementById('success-msg').textContent =
@@ -1035,16 +1036,20 @@ async function saveContractors() {
 
   if (sheetsOn) {
     setStatus(st, 'wait', '⏳ Guardando en Google Sheets...');
-    fetch(CONFIG.sheetsUrl, {
-      method: 'POST',
-      mode:   'no-cors',
-      body:   JSON.stringify({ action: 'saveContractors', contractors: editContractors, specialCrews: editSpecialCrews }),
-    }).catch(() => {});
-    // Optimistically update local state (no-cors can't read response)
-    CONTRACTORS   = [...editContractors];
-    SPECIAL_CREWS = [...editSpecialCrews];
-    buildGrid();
-    setStatus(st, 'ok', `✅ ${editContractors.length} subcontratistas guardados en Google Sheets.`);
+    try {
+      const res = await fetch(CONFIG.sheetsUrl, {
+        method: 'POST',
+        body:   JSON.stringify({ action: 'saveContractors', contractors: editContractors, specialCrews: editSpecialCrews }),
+      });
+      const json = await res.json().catch(() => ({}));
+      if (json.success === false) throw new Error(json.error || 'Error desconocido');
+      CONTRACTORS   = [...editContractors];
+      SPECIAL_CREWS = [...editSpecialCrews];
+      buildGrid();
+      setStatus(st, 'ok', `✅ ${editContractors.length} subcontratistas guardados en Google Sheets.`);
+    } catch(err) {
+      setStatus(st, 'err', `❌ Error al guardar: ${err.message}`);
+    }
     return;
   }
 
