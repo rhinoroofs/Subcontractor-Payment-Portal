@@ -188,7 +188,7 @@ const CONFIG = {
   repo:      "Subcontractor-Payment-Portal", // ← Your repository name
   token:     "ghp_XXXXXXXXXX",         // ← Your GitHub Personal Access Token
   adminpw:   "RhinoAdmin2026",         // ← Password for the admin panel
-  sheetsUrl: "https://script.google.com/macros/s/AKfycbyrYvauSRE_OW9A901egKAgMjsvdOLaGQeJ508m3y7LdOsG6bXw6mJxf1n53Qr6fiV9ng/exec", // ← Google Apps Script Web App URL
+  sheetsUrl: "https://script.google.com/macros/s/AKfycbxWpqDrJcydnpLA2qn1VhFLG1710gNJij4JIIPqgB0mMkkwE1mrB9JmYrFB-45M2JnZQw/exec", // ← Google Apps Script Web App URL
   sheetLink: "https://docs.google.com/spreadsheets/d/1ls8QMBgnRmlRg1-2gTrr4mY_jYYt-k2jWeSR3Swv2q8/edit?usp=sharing", // ← Direct URL to your Google Sheet
 };
 </script>
@@ -1037,10 +1037,11 @@ async function saveContractors() {
   if (sheetsOn) {
     setStatus(st, 'wait', '⏳ Guardando en Google Sheets...');
     try {
-      const res = await fetch(CONFIG.sheetsUrl, {
-        method: 'POST',
-        body:   JSON.stringify({ action: 'saveContractors', contractors: editContractors, specialCrews: editSpecialCrews }),
+      const params = new URLSearchParams({
+        action: 'saveContractors',
+        data:   JSON.stringify({ contractors: editContractors, specialCrews: editSpecialCrews }),
       });
+      const res  = await fetch(`${CONFIG.sheetsUrl}?${params}`);
       const json = await res.json().catch(() => ({}));
       if (json.success === false) throw new Error(json.error || 'Error desconocido');
       CONTRACTORS   = [...editContractors];
