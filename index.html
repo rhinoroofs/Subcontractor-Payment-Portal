@@ -704,9 +704,12 @@ async function writeContractors(data, sha) {
   const sheetsOn = CONFIG.sheetsUrl && !CONFIG.sheetsUrl.includes('APPS_SCRIPT_URL');
 
   if (sheetsOn) {
-    // Load contractors from Google Sheets
+    // Load contractors from Google Sheets (6s timeout)
     try {
-      const r = await fetch(CONFIG.sheetsUrl + '?action=contractors');
+      const ctrl = new AbortController();
+      const timer = setTimeout(() => ctrl.abort(), 6000);
+      const r = await fetch(CONFIG.sheetsUrl + '?action=contractors', { signal: ctrl.signal });
+      clearTimeout(timer);
       if (r.ok) {
         const d = await r.json();
         if (d.contractors && d.contractors.length) {
@@ -714,7 +717,7 @@ async function writeContractors(data, sha) {
           SPECIAL_CREWS = d.specialCrews || [];
         }
       }
-    } catch(e) { /* use defaults */ }
+    } catch(e) { /* timeout or error — use defaults */ }
   } else if (isConfigured) {
     // Load contractors from GitHub
     const result = await readContractors();
