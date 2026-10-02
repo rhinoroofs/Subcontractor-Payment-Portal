@@ -703,11 +703,14 @@ async function writeContractors(data, sha) {
 
   const sheetsOn = CONFIG.sheetsUrl && !CONFIG.sheetsUrl.includes('APPS_SCRIPT_URL');
 
+  // Show grid immediately with defaults — never block the UI
+  buildGrid();
+
   if (sheetsOn) {
-    // Load contractors from Google Sheets (6s timeout)
+    // Try to load from Google Sheets in the background (10s timeout)
     try {
-      const ctrl = new AbortController();
-      const timer = setTimeout(() => ctrl.abort(), 6000);
+      const ctrl  = new AbortController();
+      const timer = setTimeout(() => ctrl.abort(), 10000);
       const r = await fetch(CONFIG.sheetsUrl + '?action=contractors', { signal: ctrl.signal });
       clearTimeout(timer);
       if (r.ok) {
@@ -715,9 +718,10 @@ async function writeContractors(data, sha) {
         if (d.contractors && d.contractors.length) {
           CONTRACTORS   = d.contractors;
           SPECIAL_CREWS = d.specialCrews || [];
+          buildGrid(); // refresh grid with live data
         }
       }
-    } catch(e) { /* timeout or error — use defaults */ }
+    } catch(e) { /* timeout or error — keep defaults already shown */ }
   } else if (isConfigured) {
     // Load contractors from GitHub
     const result = await readContractors();
@@ -725,9 +729,9 @@ async function writeContractors(data, sha) {
       CONTRACTORS    = result.data.contractors  || DEFAULT_CONTRACTORS;
       SPECIAL_CREWS  = result.data.specialCrews || DEFAULT_SPECIAL_CREWS;
       contractorsSha = result.sha;
+      buildGrid();
     }
   }
-  buildGrid();
 })();
 
 // ── SUBMIT ───────────────────────────────────────────────────
