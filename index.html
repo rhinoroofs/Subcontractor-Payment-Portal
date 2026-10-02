@@ -454,8 +454,8 @@ function buildGrid() {
       ? '<br><span style="font-size:9px;background:#E8F5E9;color:#2E7D32;border-radius:3px;padding:1px 5px;font-weight:700;">SPECIAL</span>'
       : '';
     return `<button class="c-btn" data-index="${i}">
-      <div class="c-initial" style="background:${bg};color:${fc};">${name[0].toUpperCase()}</div>
-      ${safeN}${specTag}
+      <div class="c-initial" style="background:bg;color:{fc};">${name[0].toUpperCase()}</div>
+      safeN{specTag}
     </button>`;
   }).join('');
 }
@@ -500,21 +500,22 @@ function addEntry() {
   if (isSpecial()) {
     div.innerHTML = `
       <div class="entry-head">
-        <span class="entry-num">Trabajo #${id}</span>${removeBtn}
+        <span class="entry-num">Trabajo #id</span>{removeBtn}
       </div>
       <div class="entry-body${alt ? ' alt' : ''}">
         <div class="form-row">
+          <div class="form-group" style="flex:1"><label>Job # <span style="background:var(--red);color:white;border-radius:3px;padding:1px 5px;font-size:9px;margin-left:3px;">REQ</span></label><input type="text" id="e${id}-job" placeholder="RR-1234"></div>
           <div class="form-group" style="flex:3"><label>Address</label><input type="text" id="e${id}-addr" placeholder="1234 Palm Ave, Tampa FL"></div>
           <div class="form-group"><label>PM</label>
-            <select id="e${id}-pm"><option value="">—</option>${PMs.map(p=>`<option>${p}</option>`).join('')}</select>
+            <select id="eid-pm"><optionvalue="">—</option>{PMs.map(p=>`<option>${p}</option>`).join('')}</select>
           </div>
         </div>
         <div class="form-row">
           <div class="form-group"><label>Type of Work</label>
-            <select id="e${id}-work"><option value="">—</option>${SPECIAL_WORK_TYPES.map(w=>`<option>${w}</option>`).join('')}</select>
+            <select id="eid-work"><optionvalue="">—</option>{SPECIAL_WORK_TYPES.map(w=>`<option>${w}</option>`).join('')}</select>
           </div>
           <div class="form-group"><label>Other $</label>
-            <input type="number" id="e${id}-oth" placeholder="0.00" oninput="calcSpecial(${id})" min="0" step=".01">
+            <input type="number" id="eid-oth"placeholder="0.00"oninput="calcSpecial({id})" min="0" step=".01">
           </div>
         </div>
         <div class="form-group">
@@ -524,41 +525,42 @@ function addEntry() {
       </div>
       <div class="entry-footer">
         <span class="lbl">AMT FOR JOB</span>
-        <span class="amt" id="e${id}-amt">$0.00</span>
+        <span class="amt" id="eid-amt">0.00</span>
       </div>`;
   } else {
     div.innerHTML = `
       <div class="entry-head">
-        <span class="entry-num">Trabajo #${id}</span>${removeBtn}
+        <span class="entry-num">Trabajo #id</span>{removeBtn}
       </div>
       <div class="entry-body${alt ? ' alt' : ''}">
         <div class="form-row">
+          <div class="form-group" style="flex:1"><label>Job # <span style="background:var(--red);color:white;border-radius:3px;padding:1px 5px;font-size:9px;margin-left:3px;">REQ</span></label><input type="text" id="e${id}-job" placeholder="RR-1234"></div>
           <div class="form-group" style="flex:3"><label>Address</label><input type="text" id="e${id}-addr" placeholder="1234 Palm Ave, Tampa FL"></div>
           <div class="form-group"><label>PM</label>
-            <select id="e${id}-pm"><option value="">—</option>${PMs.map(p=>`<option>${p}</option>`).join('')}</select>
+            <select id="eid-pm"><optionvalue="">—</option>{PMs.map(p=>`<option>${p}</option>`).join('')}</select>
           </div>
         </div>
         <div class="form-row">
-          <div class="form-group" style="flex:.6"><label>Squares</label><input type="number" id="e${id}-sq" placeholder="0" oninput="calc(${id})" min="0"></div>
+          <div class="form-group" style="flex:.6"><label>Squares</label><input type="number" id="eid-sq"placeholder="0"oninput="calc({id})" min="0"></div>
           <div class="form-group"><label>Roof Type</label>
-            <select id="e${id}-roof"><option value="">—</option>${ROOF_TYPES.map(r=>`<option>${r}</option>`).join('')}</select>
+            <select id="eid-roof"><optionvalue="">—</option>{ROOF_TYPES.map(r=>`<option>${r}</option>`).join('')}</select>
           </div>
           <div class="form-group"><label>Type of Work</label>
-            <select id="e${id}-work"><option value="">—</option>${WORK_TYPES.map(w=>`<option>${w}</option>`).join('')}</select>
+            <select id="eid-work"><optionvalue="">—</option>{WORK_TYPES.map(w=>`<option>${w}</option>`).join('')}</select>
           </div>
         </div>
         <div class="form-row">
-          <div class="form-group"><label>Rate $/SQ</label><input type="number" id="e${id}-rate" placeholder="0.00" oninput="calc(${id})" min="0" step=".01"></div>
-          <div class="form-group"><label>Subtotal $</label><input type="text" id="e${id}-sub2" readonly></div>
-          <div class="form-group"><label>Wood $/SH</label><input type="number" id="e${id}-wr" placeholder="0.00" oninput="calc(${id})" min="0" step=".01"></div>
-          <div class="form-group"><label>Wood # SH</label><input type="number" id="e${id}-ws" placeholder="0" oninput="calc(${id})" min="0"></div>
-          <div class="form-group"><label>Wood Total $</label><input type="text" id="e${id}-wt" readonly></div>
+          <div class="form-group"><label>Rate /SQ</label><inputtype="number"id="e{id}-rate" placeholder="0.00" oninput="calc(${id})" min="0" step=".01"></div>
+          <div class="form-group"><label>Subtotal </label><inputtype="text"id="e{id}-sub2" readonly></div>
+          <div class="form-group"><label>Wood /SH</label><inputtype="number"id="e{id}-wr" placeholder="0.00" oninput="calc(${id})" min="0" step=".01"></div>
+          <div class="form-group"><label>Wood # SH</label><input type="number" id="eid-ws"placeholder="0"oninput="calc({id})" min="0"></div>
+          <div class="form-group"><label>Wood Total </label><inputtype="text"id="e{id}-wt" readonly></div>
         </div>
         <div class="form-row">
-          <div class="form-group"><label>Fascia $/FT</label><input type="number" id="e${id}-fr" placeholder="0.00" oninput="calc(${id})" min="0" step=".01"></div>
-          <div class="form-group"><label>Fascia # FT</label><input type="number" id="e${id}-ff" placeholder="0" oninput="calc(${id})" min="0"></div>
-          <div class="form-group"><label>Fascia Total $</label><input type="text" id="e${id}-ft" readonly></div>
-          <div class="form-group"><label>Other $</label><input type="number" id="e${id}-oth" placeholder="0.00" oninput="calc(${id})" min="0" step=".01"></div>
+          <div class="form-group"><label>Fascia /FT</label><inputtype="number"id="e{id}-fr" placeholder="0.00" oninput="calc(${id})" min="0" step=".01"></div>
+          <div class="form-group"><label>Fascia # FT</label><input type="number" id="eid-ff"placeholder="0"oninput="calc({id})" min="0"></div>
+          <div class="form-group"><label>Fascia Total </label><inputtype="text"id="e{id}-ft" readonly></div>
+          <div class="form-group"><label>Other </label><inputtype="number"id="e{id}-oth" placeholder="0.00" oninput="calc(${id})" min="0" step=".01"></div>
         </div>
         <div class="form-group">
           <label>Notes</label>
@@ -567,7 +569,7 @@ function addEntry() {
       </div>
       <div class="entry-footer">
         <span class="lbl">AMT FOR JOB</span>
-        <span class="amt" id="e${id}-amt">$0.00</span>
+        <span class="amt" id="eid-amt">0.00</span>
       </div>`;
   }
   document.getElementById('entries-wrap').appendChild(div);
@@ -583,9 +585,9 @@ const fmt = v  => '$' + Number(v).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',
 const setRO = (id, v) => { const el = document.getElementById(id); if(el) el.value = v > 0 ? fmt(v) : ''; };
 
 function calc(id) {
-  const sub = gn(`e${id}-sq`) * gn(`e${id}-rate`);
-  const wt  = gn(`e${id}-wr`) * gn(`e${id}-ws`);
-  const ft  = gn(`e${id}-fr`) * gn(`e${id}-ff`);
+  const sub = gn(`eid-sq`)*gn(`e{id}-rate`);
+  const wt  = gn(`eid-wr`)*gn(`e{id}-ws`);
+  const ft  = gn(`eid-fr`)*gn(`e{id}-ff`);
   const oth = gn(`e${id}-oth`);
   const amt = sub + wt + ft + oth;
   setRO(`e${id}-sub2`, sub);
@@ -609,9 +611,9 @@ function updateGrand() {
     if (!document.getElementById(`eb-${i}`)) continue;
     total += isSpecial()
       ? gn(`e${i}-oth`)
-      : (gn(`e${i}-sq`) * gn(`e${i}-rate`))
-        + (gn(`e${i}-wr`) * gn(`e${i}-ws`))
-        + (gn(`e${i}-fr`) * gn(`e${i}-ff`))
+      : (gn(`ei-sq`)*gn(`e{i}-rate`))
+        + (gn(`ei-wr`)*gn(`e{i}-ws`))
+        + (gn(`ei-fr`)*gn(`e{i}-ff`))
         + gn(`e${i}-oth`);
   }
   document.getElementById('grand-total').textContent = fmt(total);
@@ -621,11 +623,12 @@ function getEntries() {
   const list = [];
   for (let i = 1; i <= entryCount; i++) {
     if (!document.getElementById(`eb-${i}`)) continue;
-    const sq = gn(`e${i}-sq`), rate = gn(`e${i}-rate`);
-    const wr = gn(`e${i}-wr`),  ws  = gn(`e${i}-ws`);
-    const fr = gn(`e${i}-fr`),  ff  = gn(`e${i}-ff`);
+    const sq = gn(`ei-sq`),rate=gn(`e{i}-rate`);
+    const wr = gn(`ei-wr`), ws =gn(`e{i}-ws`);
+    const fr = gn(`ei-fr`), ff =gn(`e{i}-ff`);
     const oth = gn(`e${i}-oth`);
     list.push({
+      jobNum:   document.getElementById(`e${i}-job`)?.value  || '',
       addr:     document.getElementById(`e${i}-addr`)?.value || '',
       pm:       document.getElementById(`e${i}-pm`)?.value   || '',
       sq, rate, subtotal: +(sq*rate).toFixed(2),
@@ -648,7 +651,7 @@ const b64enc = s => btoa(unescape(encodeURIComponent(s)));
 const b64dec = s => decodeURIComponent(escape(atob(s.replace(/\n/g,''))));
 
 async function readData() {
-  const r = await fetch(`${GH}/repos/${CONFIG.owner}/${CONFIG.repo}/contents/data.json`, { headers: ghHdr() });
+  const r = await fetch(`GH/repos/{CONFIG.owner}/${CONFIG.repo}/contents/data.json`, { headers: ghHdr() });
   if (r.status === 404) return { rows: [], sha: null };
   if (!r.ok) throw new Error('Error al leer datos. Verifica la configuración.');
   const j = await r.json();
@@ -661,7 +664,7 @@ async function writeData(rows, sha) {
     content: b64enc(JSON.stringify(rows, null, 2)),
     ...(sha && { sha }),
   };
-  const r = await fetch(`${GH}/repos/${CONFIG.owner}/${CONFIG.repo}/contents/data.json`, {
+  const r = await fetch(`GH/repos/{CONFIG.owner}/${CONFIG.repo}/contents/data.json`, {
     method: 'PUT', headers: { ...ghHdr(), 'Content-Type': 'application/json' },
     body: JSON.stringify(body),
   });
@@ -670,7 +673,7 @@ async function writeData(rows, sha) {
 
 async function readContractors() {
   try {
-    const r = await fetch(`${GH}/repos/${CONFIG.owner}/${CONFIG.repo}/contents/contractors.json`, { headers: ghHdr() });
+    const r = await fetch(`GH/repos/{CONFIG.owner}/${CONFIG.repo}/contents/contractors.json`, { headers: ghHdr() });
     if (r.status === 404) return null;
     if (!r.ok) return null;
     const j = await r.json();
@@ -684,7 +687,7 @@ async function writeContractors(data, sha) {
     content: b64enc(JSON.stringify(data, null, 2)),
     ...(sha && { sha }),
   };
-  const r = await fetch(`${GH}/repos/${CONFIG.owner}/${CONFIG.repo}/contents/contractors.json`, {
+  const r = await fetch(`GH/repos/{CONFIG.owner}/${CONFIG.repo}/contents/contractors.json`, {
     method: 'PUT', headers: { ...ghHdr(), 'Content-Type': 'application/json' },
     body: JSON.stringify(body),
   });
@@ -730,6 +733,18 @@ async function submitPayroll() {
   if (!week) { alert('Por favor selecciona la semana.'); return; }
   const entries = getEntries().filter(e => e.sq > 0 || e.amtJob > 0 || isSpecial());
   if (!entries.length) { alert('Agrega al menos un trabajo con datos.'); return; }
+
+  // ── Job # obligatorio para todos ─────────────────────────────
+  for (let i = 1; i <= entryCount; i++) {
+    if (!document.getElementById(`eb-${i}`)) continue;
+    const jobEl = document.getElementById(`e${i}-job`);
+    const jobVal = jobEl?.value?.trim();
+    if (!jobVal) {
+      if (jobEl) { jobEl.style.borderColor = 'var(--red)'; jobEl.focus(); jobEl.style.boxShadow = '0 0 0 3px rgba(234,67,54,0.25)'; }
+      alert(`⚠️ Trabajo #${i}: Job # es obligatorio.`);
+      return;
+    }
+  }
 
   if (isSpecial()) {
     for (let i = 1; i <= entryCount; i++) {
@@ -779,14 +794,14 @@ async function submitPayroll() {
       const rate = gn(`e${i}-rate`);
       const notes = document.getElementById(`e${i}-notes`)?.value?.trim();
 
-      if (!addr) { hl(`e${i}-addr`); alert(`⚠️ Trabajo #${i}: Address es obligatorio.`); return; }
-      if (!pm)   { hl(`e${i}-pm`);   alert(`⚠️ Trabajo #${i}: PM es obligatorio.`); return; }
-      if (!sq)   { hl(`e${i}-sq`);   alert(`⚠️ Trabajo #${i}: Squares (SQ) es obligatorio.`); return; }
-      if (!roof) { hl(`e${i}-roof`); alert(`⚠️ Trabajo #${i}: Roof Type es obligatorio.`); return; }
-      if (!work) { hl(`e${i}-work`); alert(`⚠️ Trabajo #${i}: Type of Work es obligatorio.`); return; }
-      if (!rate) { hl(`e${i}-rate`); alert(`⚠️ Trabajo #${i}: Rate $/SQ es obligatorio.`); return; }
+      if (!addr) { hl(`ei-addr`);alert(`⚠️Trabajo#{i}: Address es obligatorio.`); return; }
+      if (!pm)   { hl(`ei-pm`);  alert(`⚠️Trabajo#{i}: PM es obligatorio.`); return; }
+      if (!sq)   { hl(`ei-sq`);  alert(`⚠️Trabajo#{i}: Squares (SQ) es obligatorio.`); return; }
+      if (!roof) { hl(`ei-roof`);alert(`⚠️Trabajo#{i}: Roof Type es obligatorio.`); return; }
+      if (!work) { hl(`ei-work`);alert(`⚠️Trabajo#{i}: Type of Work es obligatorio.`); return; }
+      if (!rate) { hl(`ei-rate`);alert(`⚠️Trabajo#{i}: Rate $/SQ es obligatorio.`); return; }
       if (REQUIRE_NOTES.includes(activeName) && !notes) {
-        hl(`e${i}-notes`); alert(`⚠️ Trabajo #${i}: Notes es obligatorio para ${activeName}.`); return;
+        hl(`ei-notes`);alert(`⚠️Trabajo#{i}: Notes es obligatorio para ${activeName}.`); return;
       }
     }
   }
@@ -917,7 +932,7 @@ function renderTable() {
       <td><strong>${r.contractor}</strong></td>
       <td>${r.addr||'—'}</td>
       <td>${r.pm||'—'}</td>
-      <td><span class="badge ${bc}">${r.workType||'—'}</span></td>
+      <td><span class="badge bc">{r.workType||'—'}</span></td>
       <td>${r.roofType||'—'}</td>
       <td style="text-align:right;font-weight:600">${r.sq||0}</td>
       <td style="text-align:right">${r.rate ? fmt(r.rate) : '—'}</td>
@@ -945,10 +960,10 @@ function exportCSV() {
   const fw   = document.getElementById('f-week-filter').value;
   const rows = allRows.filter(r=>(!fc||r.contractor===fc)&&(!fw||r.weekDate===fw));
   if (!rows.length) { alert('No hay datos para exportar.'); return; }
-  const hdrs = ['Fecha','Semana','Contractor','Address','PM','SQ','Roof','Work','Rate','Subtotal','Wood Total','Fascia Total','Other','AMT Job','Notes'];
+  const hdrs = ['Fecha','Semana','Contractor','Job #','Address','PM','SQ','Roof','Work','Rate','Subtotal','Wood Total','Fascia Total','Other','AMT Job','Notes'];
   const csv  = [hdrs.join(','), ...rows.map(r=>[
     r.submittedAt ? new Date(r.submittedAt).toLocaleDateString() : '',
-    r.weekDate, `"${r.contractor}"`, `"${r.addr||''}"`, r.pm,
+    r.weekDate, `"r.contractor"`,`"{r.jobNum||''}"`, `"${r.addr||''}"`, r.pm,
     r.sq, r.roofType, r.workType, r.rate, r.subtotal,
     r.woodTotal, r.fasciaTotal, r.other, r.amtJob, `"${(r.notes||'').replace(/"/g,"'")}"`
   ].join(','))].join('\n');
@@ -987,9 +1002,9 @@ function renderSubsList() {
     const isSpec = editSpecialCrews.includes(name);
     const safeN  = name.replace(/&/g,'&amp;');
     return `<div class="sub-row">
-      <span class="sub-name">${safeN}${isSpec ? ' <span class="spec-badge">SPECIAL</span>' : ''}</span>
+      <span class="sub-name">safeN{isSpec ? ' <span class="spec-badge">SPECIAL</span>' : ''}</span>
       <label style="display:flex;align-items:center;gap:5px;font-size:12px;color:var(--dgray);cursor:pointer;white-space:nowrap;">
-        <input type="checkbox" ${isSpec?'checked':''} onchange="toggleSpecial(${i},this.checked)" style="width:14px;height:14px;cursor:pointer;accent-color:var(--blue);">
+        <input type="checkbox" isSpec?'checked':''onchange="toggleSpecial({i},this.checked)" style="width:14px;height:14px;cursor:pointer;accent-color:var(--blue);">
         Special
       </label>
       <button class="del-btn" onclick="removeSub(${i})" title="Eliminar subcontratista">×</button>
@@ -1041,7 +1056,7 @@ async function saveContractors() {
         action: 'saveContractors',
         data:   JSON.stringify({ contractors: editContractors, specialCrews: editSpecialCrews }),
       });
-      const res  = await fetch(`${CONFIG.sheetsUrl}?${params}`);
+      const res  = await fetch(`CONFIG.sheetsUrl?{params}`);
       const json = await res.json().catch(() => ({}));
       if (json.success === false) throw new Error(json.error || 'Error desconocido');
       CONTRACTORS   = [...editContractors];
@@ -1090,3 +1105,4 @@ function setStatus(el, type, msg) {
 </script>
 </body>
 </html>
+
